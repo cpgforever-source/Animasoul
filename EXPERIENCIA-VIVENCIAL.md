@@ -65,3 +65,9 @@ Status: requisito de implementação; a amostragem anterior ainda permitia repet
 - Referência aprovada: uma filha pergunta sobre a melodia que sua mãe costureira cantarola. A resposta revela uma lembrança da avó e continua a conversa, despertando curiosidade sem transformar a experiência em missão.
 
 Status: direção narrativa aprovada pelo usuário; implementação integral ainda pendente.
+
+## Narrativa central e sistemas de RPG
+
+Diretriz do usuário: a história é o principal, mas elementos mecânicos determinantes devem existir. O menu inferior deve incluir Ações e Inventário, preservando as funções previamente definidas. As cinco escolhas narrativas são distintas das iniciativas livres contextuais e da navegação. Abrir ou fechar uma interface não deve avançar o tempo ou interromper a continuidade narrativa. Inventário e patrimônio devem representar bens efetivamente possuídos e utilizáveis quando apropriado. A oração segue flutuante e independente.
+
+Proposta de organização a validar: cinco atalhos inferiores — Ações, Perfil, Relações, Inventário e Crônicas — com existência como tela principal e menu geral no cabeçalho. A disposição exata ainda não foi aprovada. Não substituir funcionalidades anteriores nem confundir esse menu com Minhas Animas ou seu rodapé institucional.
