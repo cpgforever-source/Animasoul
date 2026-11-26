@@ -32,3 +32,13 @@ A ação deve ser vivenciada, não apenas executada. O objetivo é experimentar 
 - Testar cada atividade e seus desdobramentos isoladamente antes de expandir o catálogo.
 
 Status: diretriz de implementação. O motor experimental atual ainda utiliza retornos resumidos e não satisfaz integralmente estes critérios.
+
+## Cinco possibilidades em cada situação jogável — diretriz aprovada
+
+- Apresentar sempre exatamente cinco opções narrativas válidas e contextuais em cada situação jogável. Não preencher vagas com navegação, ações impossíveis, duplicatas ou escolhas artificialmente relevantes. Controles de interface e oração flutuante ficam fora dessa contagem.
+- As cinco opções não precisam progredir uma missão, produzir recompensa, alterar atributos ou gerar um dilema moral. Observar, contemplar, conversar, brincar, demonstrar afeto e compartilhar momentos cotidianos são experiências legítimas por si mesmas.
+- A percepção de importância de uma vivência depende da idade, do contexto social, dos vínculos, da história e das circunstâncias da pessoa. Uma filha de costureira pode guardar a lembrança de estar ao lado da mãe trabalhando.
+- Registrar memórias autobiográficas contextualizadas: pessoas presentes, circunstâncias, percepções e fatos vivenciados. Permitir que sejam evocadas posteriormente por associações coerentes, como reencontrar uma música ou um tecido, sem impor sentimentos ao jogador nem atribuir recompensas artificiais.
+- A geração procedural deve compor cinco possibilidades a partir do ambiente e das capacidades atuais. Caso o catálogo não ofereça cinco possibilidades legítimas, aprofundar o catálogo e o contexto, não inventar opções incompatíveis.
+
+Status: requisito de implementação, ainda não aplicado ao motor experimental.
