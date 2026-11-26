@@ -19,3 +19,26 @@ dialog{width:min(calc(100% - 1.15rem),27.5rem,var(--frame));max-height:86vh;max-
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important;scroll-behavior:auto!important}}html.still *,html.still *:before,html.still *:after{animation:none!important;transition:none!important}
 
 .spirit-nav{grid-template-columns:repeat(3,minmax(0,1fr))}.screen-head{background:linear-gradient(180deg,#12243c40,#0d1828 90%),url(art/night.webp) center top/cover no-repeat;border-radius:.65rem}
+
+/* 0.19 — fixed vertical reading canvas, progressive narrator */
+.reading{height:100vh;height:100dvh;min-height:0;padding:0 .85rem 0;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.reading>.top{flex:0 0 auto;padding:.18rem 0}
+.reading>.scene-image{flex:0 0 clamp(70px,17dvh,155px);aspect-ratio:auto;min-height:0;max-height:none;margin:0 -.85rem;padding:.45rem .85rem}
+.reading>.scene{display:flex;flex-direction:column;flex:1;min-height:0;padding:.4rem 0 .2rem;gap:.28rem}
+.reading .meta{flex:none;font-size:.7rem;line-height:1.25;gap:.25rem}
+.reading .scene h1{flex:none;font-size:clamp(1.23rem,5vw,1.75rem);line-height:1.12;margin:.1rem 0 .2rem}
+.reading .prose{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:.15rem .24rem .5rem 0;scrollbar-width:thin;scrollbar-color:#536b85 transparent}
+.reading .prose p{font-size:calc(1rem * var(--scale));line-height:1.52}
+.reading .decision-area{flex:none;max-height:48dvh;overflow-y:auto;overscroll-behavior:contain}
+.reading .choices{margin:.15rem 0;gap:.26rem}
+.reading .choice{font-size:calc(.92rem * var(--scale));line-height:1.2;min-height:42px;padding:.44rem .65rem}
+.reading .sub-actions{margin:0;justify-content:flex-start}
+.reading .sub-actions .textbtn{min-height:30px;font-size:.76rem}
+.reading .bar{position:relative;left:auto;bottom:auto;transform:none;width:calc(100% + 1.7rem);margin:0 -.85rem;flex:none;backdrop-filter:none}
+.reading .material-bar{grid-template-columns:repeat(5,minmax(0,1fr))}
+.reading .bar button{min-height:44px;font-size:.68rem}
+.reading .floating-prayer{position:absolute;z-index:3;right:1rem;top:calc(44px + clamp(70px,17dvh,155px) - 45px);width:40px;height:40px;border-radius:50%;background:#15283be8;border:1px solid #a0b8d0;display:grid;place-items:center;box-shadow:0 3px 10px #0008}
+.reading .narration-status{flex:none;text-align:right;min-height:30px}
+.reading [hidden]{display:none!important}
+.reading .save-error{flex:none;font-size:.7rem;padding:.2rem 0}
+@media(max-height:600px){.reading>.scene-image{flex-basis:65px}.reading .floating-prayer{top:66px}.reading .choice{min-height:36px;padding:.3rem .55rem}.reading .scene h1{font-size:1.2rem}.reading .bar button{min-height:39px}}
