@@ -1,18 +1,20 @@
-# Anima Soul — Ritmo de jogo
+# Anima Soul — Ritmo e progressão temporal
 
-Diretriz: a existência permanece procedural. Nenhum modo altera a causalidade, a autonomia dos personagens, o livre-arbítrio ou as possibilidades de morte natural.
+## Diretriz aprovada
 
-## Modo rápido (proposta de implementação)
+Não há limite artificial de ações, decisões ou experiências em nenhum modo. A hipótese de 40 decisões foi descartada como requisito. O problema a resolver é a progressão genérica e descontextualizada, não a quantidade de ações.
 
-- Referência de 40 decisões significativas por existência, se necessário para controlar a duração da sessão. Não é uma exigência do motor.
-- Navegação, leitura, consulta ao diário e oração não consomem decisões. Uma atividade composta consome no máximo uma decisão quando consolidada, e seus desdobramentos são registrados.
-- O tempo decorrido é calculado a partir das atividades e rotinas, nunca da quantidade de decisões.
-- Condensar períodos de rotina de maneira contextual; interromper diante de fatos relevantes que exigem escolha. Não selecionar respostas importantes automaticamente.
-- Uma existência pode terminar antes do orçamento por causas simuladas. Não provocar morte nem impor saltos temporais quando o orçamento se esgota.
-- Ao esgotar a referência, oferecer a continuidade da existência no ritmo normal ou a possibilidade de acompanhar a rotina condensada, com consentimento do jogador. A experiência não deve fingir que uma vida foi concluída.
+- O tempo avança de acordo com atividades, circunstâncias e rotinas simuladas, nunca por contagem de cliques.
+- Períodos condensados devem simular a evolução do mundo, das pessoas, dos relacionamentos, dos conhecimentos e das circunstâncias. Apresentar consequências concretas e individualizadas.
+- Acontecimentos que exigem decisões interrompem a condensação; não tomar decisões importantes pelo jogador.
+- Acontecimentos são procedurais e contextuais, sem roteiro obrigatório nem marcos narrativos fixados por idade.
+- As ações recorrentes podem ser retomadas quando o contexto permitir; ações concluídas não podem ser repetidas indevidamente.
+- A oração permanece uma possibilidade flutuante, sem menu específico ou progressão artificial.
+- Eventuais estilos de jogo diferem apenas no ritmo e no grau de condensação da rotina, nunca em limites de decisões.
+- A morte decorre da simulação, não da duração da sessão.
 
-## Modo normal
+## Critério de qualidade
 
-Sem limite global de decisões. Ações impossíveis ou já concluídas permanecem indisponíveis; atividades recorrentes podem ser retomadas quando o contexto permitir.
+Cada passagem de tempo deve transmitir uma existência vivida. O jogador deve compreender o que aconteceu, o que mudou e quais possibilidades surgiram. Evitar resumos genéricos sem consequências concretas.
 
-Status: especificação inicial, ainda não implementada. Os valores dos demais modos e a experiência de encerramento do modo rápido dependem de validação.
+Status: diretriz de implementação. O motor experimental ainda precisa ser aprofundado e validado para atender integralmente a estes critérios.
