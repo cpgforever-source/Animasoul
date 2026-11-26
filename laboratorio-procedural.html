@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anima Soul — Laboratório procedural</title>
+<style>
+:root{color-scheme:dark;font:16px/1.5 system-ui,sans-serif;background:#080f1c;color:#d9e1ed}*{box-sizing:border-box}body{margin:0}main{max-width:480px;margin:auto;padding:22px 18px 100px}h1{font:normal 28px Georgia,serif;letter-spacing:1px;margin:0}h2{font:normal 21px Georgia,serif;margin:0 0 8px}small,.muted{color:#a0adbf}section{border-top:1px solid #344155;padding:18px 0}button,select{font:inherit;color:inherit;background:#142136;border:1px solid #41516a;border-radius:8px;padding:12px;margin:4px 0;width:100%;text-align:left}button:active{background:#253754}button:disabled{opacity:.5}#pray{position:fixed;right:max(16px,calc((100vw - 450px)/2));bottom:18px;border-radius:50%;width:58px;height:58px;text-align:center;padding:0;box-shadow:0 4px 20px #0007;font-size:24px}summary{cursor:pointer}ol{padding-left:22px}li{margin:8px 0}#notice{min-height:1.5em}
+</style><script src="simulation-v1.js" defer></script></head><body><main><header><small>Laboratório de simulação · V1</small><h1>ANIMA SOUL</h1><p class="muted">Interface técnica, não definitiva.</p></header><section id="screen"></section><section id="actions"></section><section id="time"></section><section><details><summary>Crônicas desta existência</summary><ol id="journal"></ol></details></section><section><details><summary>Dados de teste</summary><p id="debug"></p><button id="reset">Gerar outra existência de teste</button></details></section><p id="notice" role="status"></p><button id="pray" hidden aria-label="Orar" title="Orar">✧</button></main>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const A=window.AnimaSimulationV1,key='anima-procedural-lab-v1';let s;const $=id=>document.getElementById(id);const node=(tag,txt,cls)=>{const n=document.createElement(tag);n.textContent=txt;if(cls)n.className=cls;return n};
+ const fresh=()=>A.make(crypto.getRandomValues(new Uint32Array(1))[0]);
+ try{s=A.load(localStorage.getItem(key));}catch{s=fresh();}
+ function save(){try{localStorage.setItem(key,A.save(s));$('notice').textContent='';}catch{$('notice').textContent='Não foi possível salvar o progresso neste navegador.';}}
+ function execute(op){const r=A.apply(s,{id:s.seed+':'+s.revision+':'+op.id,revision:s.revision,token:op.token});if(r.status==='accepted'){s=r.state;save();render();}else $('notice').textContent=r.reason;}
+ function render(){const v=A.view(s),clock=String(Math.floor(v.minute/60)).padStart(2,'0')+':'+String(v.minute%60).padStart(2,'0');
+ $('screen').replaceChildren(node('small',v.age+' anos · dia '+v.day+' · '+clock),node('h2',v.alive?v.place:'Existência encerrada'),node('p',v.context,'muted'),node('p',v.text));
+ $('actions').replaceChildren();for(const op of v.options.filter(x=>!x.floating)){const b=node('button',op.label);b.onclick=()=>execute(op);$('actions').append(b);}
+ const prayer=v.options.find(x=>x.floating);$('pray').hidden=!prayer;$('pray').onclick=prayer?()=>execute(prayer):null;
+ $('time').replaceChildren();if(v.canCondense){$('time').append(node('small','Condensar a rotina — interrupção em acontecimentos relevantes'));for(const [days,label] of [[7,'Uma semana'],[30,'Um mês'],[365,'Até um ano']]){const b=node('button',label);b.onclick=()=>{const r=A.condense(s,days,s.revision);if(r.status==='accepted'){s=r.state;save();render();}else $('notice').textContent=r.reason;};$('time').append(b);}}
+ $('journal').replaceChildren(...v.journal.slice(-100).reverse().map(f=>node('li','Dia '+f.day+' · '+f.text)));
+ $('debug').textContent='Seed: '+s.seed+' · Revisão: '+s.revision+' · Era: '+v.era+' · Local: '+v.location+' · Pessoas: '+s.people.length;
+ }
+ $('reset').onclick=()=>{if(confirm('Encerrar este teste e gerar uma nova existência aleatória?')){s=fresh();save();render();}};
+ save();render();
+});
+</script></body></html>
