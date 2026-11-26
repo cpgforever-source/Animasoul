@@ -43,7 +43,7 @@ const near=s=>s.location==='casa'?living(s).filter(p=>p.role!=='vizinho'):living
 const choices=s=>{
  if(!s.alive)return [];
  const a=age(s),o=(k,l,m,x)=>option(s,k,l,m,x);
- if(s.pending)return s.pending.options.map(x=>o(x.id,x.label,x.minutes));
+ if(s.pending){const base=s.pending.options.map(x=>o(x.id,x.label,x.minutes));const extra=[o('event:ask','Perguntar o que já foi tentado',15),o('event:reflect','Parar um instante para compreender a situação',5)];return [...base,...extra].slice(0,5).concat(a>=6?[o('pray','Orar',5,{floating:true})]:[]);}
  let out=[];
  if(a<2){if(dailyOnce(s,'observe'))out.push(o('observe','Perceber o que acontece ao redor',15));}
  else {
@@ -62,8 +62,18 @@ const choices=s=>{
   for(const p of near(s))if(inDay(s)&&dailyOnce(s,'talk:'+p.id))out.push(o('talk:'+p.id,'Conversar com '+p.name,20));
  }
  if(a>=6)out.push(o('pray','Orar',5,{floating:true}));
- if(s.location==='casa')out.push(o('sleep','Acompanhar até a próxima manhã',0));
- return out;
+ if(s.location==='casa')out.push(o('sleep',hour(s)<18?'Acompanhar algumas horas da rotina':'Dormir até a manhã seguinte',0));
+ const activities=a<2?[
+ ['sound','Acompanhar os sons próximos',10],['light','Perceber a claridade',10],['touch','Perceber o toque e o calor',10],['quiet','Acompanhar um instante de descanso',20],['movement','Acompanhar os movimentos ao redor',15]
+ ]:s.location==='casa'?[
+ ['window','Observar o movimento do lado de fora',12],['meal','Fazer uma refeição',25],['tidy','Organizar os objetos que utiliza',15],['reflect','Recordar algo que aconteceu',12],['listen','Escutar os sons da casa',10],['stretch','Movimentar-se um pouco',15],['pause','Permanecer em silêncio por alguns instantes',15]
+ ]:[
+ ['surround','Observar o movimento deste lugar',12],['details','Examinar os detalhes do ambiente',15],['listen','Escutar os sons ao redor',10],['reflect','Recordar o que aprendeu aqui',12],['stretch','Movimentar-se um pouco',15],['pause','Fazer uma pausa',15],['walk','Caminhar pelas proximidades',20]
+ ];
+ for(const [id,label,duration] of activities){const k='experience:'+id,last=s.used[k];if(last===undefined||s.clock-last>=180)out.push(o(k,label,duration));}
+ // Do not invent choices when all contextual activities are exhausted; following the routine is a distinct possibility.
+ const narrative=out.filter(x=>!x.floating),floating=out.filter(x=>x.floating);
+ return [...narrative.slice(0,5),...floating];
 };
 function trigger(s){
  if(s.pending||!s.alive)return;
@@ -139,14 +149,37 @@ function apply(input,cmd){
  else if(k.startsWith('talk:')){const p=s.people.find(x=>x.id===k.slice(5));s.used[k]=day(s);p.bond=clamp(p.bond+1,-100,100);const f=fact(s,'talk',p.name+' conversou com você sobre '+(p.occupation?'seu trabalho.':'o dia.'),{person:p.id});p.memory.push(f.id);}
  else if(k.startsWith('event:')){const p=s.people.find(x=>x.id===s.pending.person);const event=s.pending.id;let text;
  if(k==='event:help'){p.bond=clamp(p.bond+2,-100,100);text='Vocês conversaram sobre a falta de mantimentos e combinaram procurar alternativas.';}
+ else if(k==='event:ask'){text=p.name+' contou o que já tentou fazer. Você pôde compreender melhor as circunstâncias antes de continuar.';}
+ else if(k==='event:reflect'){text='Você ficou alguns instantes em silêncio. '+p.name+' esperou antes de retomar suas atividades.';}
  else if(k==='event:learn'){s.player.knowledge.oficios=(s.player.knowledge.oficios||0)+1;text=p.name+' explicou o que sabia sobre a oportunidade.';}
  else if(k==='event:listen'){p.bond=clamp(p.bond+1,-100,100);text='Você escutou '+p.name+' até o fim.';}
  else text='Você deixou a conversa para outro momento.';
  const f=fact(s,'decision',text,{event,person:p.id});p.memory.push(f.id);s.pending=null;}
- else if(k==='sleep'){fact(s,'routine','Você acompanhou a rotina até a próxima manhã.');}
+ else if(k.startsWith('experience:')){
+ const id=k.slice(11),p=carers(s)[0],place=s.location;
+ const prose={
+ sound:p?'A voz de '+p.name+' se destaca por um instante entre os ruídos próximos. Os sons diminuem e voltam, sem que você consiga ainda distingui-los.':'Os sons se aproximam e se afastam. Aos poucos, o silêncio ocupa o espaço entre eles.',
+ light:'A claridade muda à medida que o tempo passa. Você acompanha os contornos que surgem diante dos seus olhos, ainda sem reconhecê-los.',
+ touch:'O calor que chega até você contrasta com o ar mais fresco. Por alguns instantes, essa sensação permanece.',
+ quiet:'Os ruídos se tornam distantes. Sua respiração desacelera enquanto os movimentos ao redor continuam.',
+ movement:'Formas e movimentos passam diante de você. Alguns se tornam familiares antes de desaparecerem do seu campo de visão.',
+ window:'Você acompanha a mudança da luz e o movimento de quem passa. O dia continua lá fora, mesmo enquanto permanece no mesmo lugar.',
+ meal:'Você dedica algum tempo à refeição. Aos poucos, a sensação de fome diminui, e você volta a prestar atenção ao ambiente.',
+ tidy:'Você reúne os objetos que utiliza e os acomoda novamente. O lugar fica um pouco mais organizado.',
+ reflect:'Você recorda '+(s.log.filter(f=>['talk','study','help','travel','experience'].includes(f.type)).at(-1)?.text||'alguns dos primeiros acontecimentos desta existência')+' O momento presente traz de volta parte daquela lembrança.',
+ listen:'Você permanece atento aos sons ao redor. Alguns se destacam, outros se confundem com o movimento habitual do lugar.',
+ stretch:'Você movimenta o corpo devagar, percebendo o esforço e o alívio de cada movimento.',
+ pause:'Durante alguns instantes, você deixa de se ocupar com outras tarefas. O movimento ao redor segue seu ritmo.',
+ surround:'Você acompanha o movimento em '+place+'. As pessoas passam, ocupadas com suas próprias atividades, e o ambiente muda pouco a pouco.',
+ details:'Você presta atenção aos detalhes em '+place+' que costumavam passar despercebidos. As formas e os materiais começam a parecer mais familiares.',
+ walk:'Você percorre um pequeno trecho de '+place+'. A cada passo, o que estava próximo fica para trás e novas perspectivas se abrem.'
+ };
+ s.used[k]=s.clock;fact(s,'experience',prose[id],{activity:id,location:place});if(id==='meal'||id==='quiet'||id==='pause')s.player.energy=clamp(s.player.energy+8,0,100);
+ }
+ else if(k==='sleep'){fact(s,'routine',hour(s)<18?'Você acompanha o ritmo da casa enquanto algumas horas passam.':'A claridade desaparece pouco a pouco. Depois do descanso, a casa começa a despertar novamente.');}
  else return reject('Ação sem implementação.');
  const outcome=s.last;
- advance(s,k==='sleep'?DAY-s.clock%DAY+7*60:op.minutes);
+ advance(s,k==='sleep'?(hour(s)<18?180:DAY-s.clock%DAY+7*60):op.minutes);
  s.revision++;s.commands.push(cmd.id);
  return {status:'accepted',state:s,outcome};
 }
