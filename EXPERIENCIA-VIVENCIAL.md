@@ -54,3 +54,14 @@ Status: requisito de implementação, ainda não aplicado ao motor experimental.
 - O mundo e os NPCs seguem vivendo independentemente do jogador; a cena não permanece congelada enquanto o tempo avança.
 
 Status: requisito de implementação; a amostragem anterior ainda permitia repetição excessiva.
+
+## Narrador literário contínuo e imagens — direção aprovada
+
+- Uma existência é uma narrativa contínua, não uma coleção de histórias ou descrições isoladas. Cada decisão deve continuar organicamente o parágrafo, diálogo ou acontecimento anterior.
+- Usar linguagem literária envolvente, diálogos naturais, ritmo sem pressa, curiosidade e continuidade de vínculos. Não reiniciar a apresentação do ambiente após cada clique nem encerrar artificialmente cada interação.
+- O motor procedural determina os fatos; o narrador os transforma em literatura sem inventar mudanças não simuladas, impor sentimentos ou criar um destino roteirizado.
+- Associar imagens às situações e ações narradas. Preservar a identidade visual dos personagens, objetos, locais, época e continuidade entre cenas. Imagens complementam a narrativa, inclusive nos pequenos momentos cotidianos.
+- Preservar a interface vertical aprovada em azul-noturno e prata, cinco opções contextuais e oração flutuante independente. Não expor a cosmologia por explicações diretas.
+- Referência aprovada: uma filha pergunta sobre a melodia que sua mãe costureira cantarola. A resposta revela uma lembrança da avó e continua a conversa, despertando curiosidade sem transformar a experiência em missão.
+
+Status: direção narrativa aprovada pelo usuário; implementação integral ainda pendente.
