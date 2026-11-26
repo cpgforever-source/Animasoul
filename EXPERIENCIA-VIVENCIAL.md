@@ -42,3 +42,15 @@ Status: diretriz de implementação. O motor experimental atual ainda utiliza re
 - A geração procedural deve compor cinco possibilidades a partir do ambiente e das capacidades atuais. Caso o catálogo não ofereça cinco possibilidades legítimas, aprofundar o catálogo e o contexto, não inventar opções incompatíveis.
 
 Status: requisito de implementação, ainda não aplicado ao motor experimental.
+
+## Saturação contextual e autonomia dos personagens — diretriz aprovada
+
+- Não oferecer incessantemente a mesma ação. Distinguir atividades concluídas, atividades recorrentes, interações em curso e iniciativas que perderam viabilidade.
+- Cada NPC possui disponibilidade, necessidades, fadiga, compromissos, limites pessoais, personalidade e memória. A repetição de uma interação pode alterar sua disposição ou fazê-lo encerrar a atividade por iniciativa própria.
+- A disponibilidade é recalculada conforme o tempo, a situação, o relacionamento e a reação dos envolvidos; não impor um limite global de repetições nem um cooldown arbitrário.
+- Renovar as cinco opções narrativas com alternativas genuínas e contextualizadas. Não preencher com duplicatas semânticas da mesma ação. Uma possibilidade esgotada poderá retornar quando as circunstâncias mudarem.
+- A narrativa explica organicamente por que a situação mudou. Não punir automaticamente a demonstração de afeto nem transformar limites humanos em pontuação moral.
+- Exemplo: após acolher a filha por algum tempo, uma costureira pode precisar liberar o braço para terminar uma encomenda. As opções passam a contemplar outras experiências possíveis naquele ambiente.
+- O mundo e os NPCs seguem vivendo independentemente do jogador; a cena não permanece congelada enquanto o tempo avança.
+
+Status: requisito de implementação; a amostragem anterior ainda permitia repetição excessiva.
